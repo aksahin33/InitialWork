@@ -1,13 +1,15 @@
-package com.techproeducation.backendproject.initialwork.entity;
+package com.techproeducation.backendproject.initialwork.domain;
 
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 
 @NoArgsConstructor
@@ -36,7 +38,7 @@ public class ContactMessage {
     private String message;
 
     @Setter(AccessLevel.NONE)
-    private String creationDateTime;
+    private LocalDateTime creationDateTime;
 
 
     @PrePersist
@@ -44,7 +46,9 @@ public class ContactMessage {
         ZoneId zoneid = ZoneId.of("America/New_York");
         LocalDateTime creationDate = LocalDateTime.now(zoneid);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        creationDateTime = creationDate.format(dateTimeFormatter);
+        String creationDateTimeString = creationDate.format(dateTimeFormatter);
+        creationDateTime = LocalDateTime.parse(creationDateTimeString,dateTimeFormatter);
+
     }
 
 
