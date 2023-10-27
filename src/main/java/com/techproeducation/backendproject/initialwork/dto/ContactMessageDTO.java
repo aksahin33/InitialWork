@@ -14,17 +14,17 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class ContactMessageDTO {
 
-    @NotNull
+    @NotNull(message = "Name cannot be null.")
     private String name;
 
-    @NotNull
+    @NotNull(message = "Email cannot be null.")
     @Email
     private String email;
 
-    @NotNull
+    @NotNull(message = "Subject cannot be null.")
     private String subject;
 
-    @NotNull
+    @NotNull(message = "Message cannot be null.")
     private String message;
 
 }

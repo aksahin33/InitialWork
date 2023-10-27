@@ -24,17 +24,17 @@ public class ContactMessage {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @NotNull
+    @NotNull(message = "Name cannot be null.")
     private String name;
 
-    @NotNull
+    @NotNull(message = "Email cannot be null.")
     @Email
     private String email;
 
-    @NotNull
+    @NotNull(message = "Subject cannot be null.")
     private String subject;
 
-    @NotNull
+    @NotNull(message = "Message cannot be null.")
     private String message;
 
     @Setter(AccessLevel.NONE)

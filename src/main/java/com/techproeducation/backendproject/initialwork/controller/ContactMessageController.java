@@ -11,9 +11,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +51,7 @@ public class ContactMessageController {
             @RequestParam("page") int page, //page number
             @RequestParam("size") int size, //items per page
             @RequestParam("sort") String sort,  //sort based on a data (optional)
-            @RequestParam("direction") Sort.Direction direction //Ascending or Descending order(ASC or DESC)
+           @RequestParam("direction") Sort.Direction direction //Ascending or Descending order(ASC or DESC)
     ){
         Pageable pageable = PageRequest.of(page-1, size, Sort.by(direction,sort));
         List<ContactMessageDTO> contactMessageDTOPage = contactMessageService.getAllMessagesWithPage(pageable);

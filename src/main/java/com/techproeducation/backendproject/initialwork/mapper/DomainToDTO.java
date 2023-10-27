@@ -10,6 +10,8 @@ public class DomainToDTO {
 
     //private ContactMessageDTO contactMessageDTO = new ContactMessageDTO();
 
+
+    //Converting ContactMessage object to ContactMessageDTO object
     public static ContactMessageDTO domainToDto(ContactMessage contactMessage1){
 
         ContactMessageDTO contactMessageDTO = new ContactMessageDTO();
@@ -22,6 +24,7 @@ public class DomainToDTO {
         return contactMessageDTO;
     }
 
+    //Converting list of ContactMessage to List of ContactMessageDTO
     public static List<ContactMessageDTO> convertToDTOList(List<ContactMessage> contactMessages) {
         List<ContactMessageDTO> dtoList = new ArrayList<>();
         for (ContactMessage message : contactMessages) {

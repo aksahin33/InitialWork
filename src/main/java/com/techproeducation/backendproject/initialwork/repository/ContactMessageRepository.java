@@ -16,10 +16,12 @@ public interface ContactMessageRepository extends JpaRepository<ContactMessage, 
 
     List<ContactMessage> findByEmail(String email);
 
-
+    //Query to find all messages including wanted String in subject field
     @Query("SELECT c FROM ContactMessage c WHERE LOWER(c.subject) LIKE LOWER(CONCAT('%', :searchString, '%'))")
     List<ContactMessage> findBySearchString(@Param("searchString") String searchString);
 
+
+    //Query to find all messages between two given dates
     @Query("SELECT c FROM ContactMessage c WHERE c.creationDateTime >= :startDate AND c.creationDateTime <= :endDate")
     List<ContactMessage> findMessagesBetweenDates(@Param("startDate") LocalDateTime date1, @Param("endDate") LocalDateTime date2);
 

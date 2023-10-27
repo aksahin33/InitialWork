@@ -64,6 +64,7 @@ public class ContactMessageService {
             throw new ResourceNotFoundException("There are no contact messages.");
         }
 
+        //Getting the List of ContactMessage objects from Page of ContactMessage objects
         List<ContactMessage> contactMessageList = contactMessagePage.getContent();
 
         return DomainToDTO.convertToDTOList(contactMessageList);
@@ -95,7 +96,8 @@ public class ContactMessageService {
     public void updateMessage(Long id, UpdateBodyDTO updateBodyDTO) {
 
         ContactMessage contactMessage = getMessageById(id);
-        
+
+        //Checking the not null fields in DTO and assigning them to corresponding domain fields
         if(updateBodyDTO.getMessage()!=null){
             contactMessage.setMessage(updateBodyDTO.getMessage());
         }
@@ -132,7 +134,10 @@ public class ContactMessageService {
 
 
         try {
+            //Parsing start date and adding 00:00 as hour
             startDate = LocalDate.parse(startDateStr, formatter).atStartOfDay();
+
+            //Parsing end date and adding 23:59:59 as hour
             endDate = LocalDate.parse(endDateStr, formatter).atTime(23,59,59);
         }catch(DateTimeParseException e){
             throw new TimeFormatException("Date format is not correct! Should be 'dd.MM.yyyy'");
@@ -151,6 +156,7 @@ public class ContactMessageService {
 
     public List<ContactMessageDTO> getMessagesBetweenTimes(String startTimeStr, String endTimeStr) {
 
+        //Getting all messages from db
         List<ContactMessage> contactMessageList = contactMessageRepository.findAll();
         if(contactMessageList.isEmpty()){
             throw new ResourceNotFoundException("There are no contact messages.");
@@ -160,25 +166,27 @@ public class ContactMessageService {
         LocalTime startTime;
         LocalTime endTime;
         try {
+            //parsing startTime from String argument and adding seconds
             startTime = LocalTime.parse(startTimeStr, formatter).withSecond(0);
+
+            //parsing endTime from String argument and adding seconds
             endTime = LocalTime.parse(endTimeStr, formatter).withSecond(0);
-            System.out.println(startTime);
-            System.out.println(endTime);
+
         }catch(DateTimeParseException e){
             throw new TimeFormatException("Time format is not correct! Should be 'HH:mm'");
         }
 
         List<ContactMessage> messagesBetweenTimes = new ArrayList<>();
-        for(ContactMessage x : contactMessageList){
 
-            System.out.println(x.getMessage());
+        for(ContactMessage x : contactMessageList){
+            //Getting LocalDateTime from the record and parsing it to LocalTime
             LocalTime creationTime = LocalTime.from(x.getCreationDateTime());
 
+            //Checking if creationTime is between the given values
             if(creationTime.isAfter(startTime)&&creationTime.isBefore(endTime)){
                 messagesBetweenTimes.add(x);
             }
         }
-
 
         if(messagesBetweenTimes.isEmpty()){
             throw new ResourceNotFoundException("There are no contact messages between the given times.");
